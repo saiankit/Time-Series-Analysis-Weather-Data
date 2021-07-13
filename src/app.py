@@ -1,8 +1,6 @@
 import streamlit as st
 import time
 import numpy as np
-import os
-import tensorflow as tf
 import csv
 import model as m
 import pandas as pd
@@ -13,63 +11,71 @@ import time
 st.title('📈 Temperature forecast using Time Series Analysis')
 first, second = st.beta_columns(2)
 
-dfMinimum = first.file_uploader('Import the Minimum Temperature csv file here.', type='csv')
-dfMaximum = second.file_uploader('Import the Maximum Temperature csv file here.', type='csv')
+minimumTemperaturedf = first.file_uploader('Import the Minimum Temperature csv file here.', type='csv')
+maximumTemperaturedf = second.file_uploader('Import the Maximum Temperature csv file here.', type='csv')
 
 time_stepMinimum=[]
 tempsMinimum=[]
 time_stepMaximum=[]
 tempsMaximum=[]
 
-if dfMinimum is not None and dfMaximum is not None:
-    dataMinimum = pd.read_csv(dfMinimum)
-    dataMaximum = pd.read_csv(dfMaximum)
-    stepMinimum = 0
-    stepMaximum = 0
-    for row in dataMinimum.itertuples():
+# Asserting the temperature files are imported properly
+
+if minimumTemperaturedf is None:
+    first.write('Please upload the minimum temperature csv file.')
+if maximumTemperaturedf is None:
+    second.write('Please upload the maximum temperature csv file.')
+
+if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
+
+    minimumTemperatureData = pd.read_csv(minimumTemperaturedf)
+    maximumTemperatureData = pd.read_csv(maximumTemperaturedf)
+
+    steps = 0
+    for row in minimumTemperatureData.itertuples():
         tempsMinimum.append(float(row[2]))
-        time_stepMinimum.append(stepMinimum)
-        stepMinimum+=1
-    for row in dataMaximum.itertuples():
+        time_stepMinimum.append(steps)
+        steps+=1
+
+    steps = 0
+    for row in maximumTemperatureData.itertuples():
         tempsMaximum.append(float(row[2]))
-        time_stepMaximum.append(stepMaximum)
-        stepMaximum+=1
+        time_stepMaximum.append(steps)
+        steps+=1
+
+
     first.write("Minimum Temperature Data")
-    first.write(dataMinimum)
+    first.write(minimumTemperatureData)
+
     second.write("Maximum Temperature Data")
-    second.write(dataMaximum)
-    days = st.slider('Select the number of days for the forecast', 0,365)
+    second.write(maximumTemperatureData)
+
     seriesMinimum=np.array(tempsMinimum)
     timeMinimum=np.array(time_stepMinimum)
-    st.line_chart(seriesMinimum)
+    first.line_chart(seriesMinimum)
+
     seriesMaximum=np.array(tempsMaximum)
     timeMaximum=np.array(time_stepMaximum)
-    st.line_chart(seriesMaximum)
+    second.line_chart(seriesMaximum)
 
-    accuracyMinimum, maeMinimum, minimumTemperature = m.forecast_model(seriesMinimum,timeMinimum,days)
-    accuracyMaximum, maeMaximum, maximumTemperature = m.forecast_model(seriesMaximum,timeMaximum,days)
-    my_bar = st.progress(0)
+    c1, c2 = st.beta_columns((4, 1))
 
-    for percent_complete in range(100):
-        time.sleep(0.1)
-        my_bar.progress(percent_complete + 1)
-    st.write("The MAEMinimum is :")
-    st.write(maeMinimum)
+    days = c1.slider('Select the number of days for the forecast', 0,365)
+    result = c2.button("Forecast :smile:")
 
-    accuracyMinimum=100-maeMinimum
-    st.write("The accuracyMinimum is :")
-    st.write(accuracyMinimum)
-    first.write("Minimum Temperature is:",minimumTemperature)
+    if result:
+        accuracyMinimum, maeMinimum, minimumTemperature = m.forecast_model(seriesMinimum,timeMinimum,days)
+        accuracyMaximum, maeMaximum, maximumTemperature = m.forecast_model(seriesMaximum,timeMaximum,days)
 
+        first.write("Minimum Temperature at Day "+str(days) + " : " +str(minimumTemperature[days-1]))
 
+        # first.write("Minimum Temperature is:")
+        # first.write(minimumTemperature)
 
-    st.write("The MAEMaximum is :")
-    st.write(maeMaximum)
+        second.write("Maximum Temperature at Day "+str(days)+ " : " +str(maximumTemperature[days-1]))
 
-    accuracyMaximum=100-maeMaximum
-    st.write("The accuracyMaximum is :")
-    st.write(accuracyMaximum)
-    second.write("Minimum Temperature is:",minimumTemperature)
+        # second.write("Maximum Temperature is:")
+        # second.write(maximumTemperature)
 
 
 hide_streamlit_style = """
@@ -78,4 +84,4 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-st.button("Re-run")
+# st.button("Re-run")

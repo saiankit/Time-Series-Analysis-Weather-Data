@@ -44,4 +44,4 @@ def forecast_model(series, time,forecastDays):
     mae=tf.keras.metrics.mean_absolute_error(x_test, rnn_forecast[:365]).numpy()
     data = rnn_forecast[:365]
     accuracy=100-mae
-    return (accuracy,mae,rnn_forecast[forecastDays])
+    return (accuracy,mae,rnn_forecast[:forecastDays])
