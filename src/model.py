@@ -1,4 +1,4 @@
-import utils as u
+import utils as util
 import tensorflow as tf
 import numpy as np
 def forecast_model(series, time,forecastDays):
@@ -18,8 +18,8 @@ def forecast_model(series, time,forecastDays):
     tf.keras.backend.clear_session()
     tf.random.set_seed(51)
     np.random.seed(51)
-    train_set = u.windowed_dataset(x_train, window_size=60, batch_size=100, shuffle_buffer=shuffle_buffer_size)
-    valid_set=u.windowed_dataset(x_valid,window_size,batch_size,shuffle_buffer_size)
+    train_set = util.windowed_dataset(x_train, window_size=60, batch_size=100, shuffle_buffer=shuffle_buffer_size)
+    valid_set=util.windowed_dataset(x_valid,window_size,batch_size,shuffle_buffer_size)
     model = tf.keras.models.Sequential([
     tf.keras.layers.Conv1D(filters=60, kernel_size=5,
                         strides=1, padding="causal",
@@ -39,9 +39,8 @@ def forecast_model(series, time,forecastDays):
                 metrics=["mae"])
     history = model.fit(train_set,validation_data=(valid_set),epochs=5)
 
-    rnn_forecast = u.model_forecast(model, series[..., np.newaxis], window_size)
+    rnn_forecast = util.model_forecast(model, series[..., np.newaxis], window_size)
     rnn_forecast = rnn_forecast[split_time - window_size:-1, -1, 0]
     mae=tf.keras.metrics.mean_absolute_error(x_test, rnn_forecast[:365]).numpy()
-    data = rnn_forecast[:365]
     accuracy=100-mae
     return (accuracy,mae,rnn_forecast[:forecastDays])

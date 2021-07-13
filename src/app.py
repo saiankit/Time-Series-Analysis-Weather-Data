@@ -6,18 +6,11 @@ import model as m
 import pandas as pd
 import time
 
-
-
 st.title('📈 Temperature forecast using Time Series Analysis')
 first, second = st.beta_columns(2)
 
 minimumTemperaturedf = first.file_uploader('Import the Minimum Temperature csv file here.', type='csv')
 maximumTemperaturedf = second.file_uploader('Import the Maximum Temperature csv file here.', type='csv')
-
-time_stepMinimum=[]
-tempsMinimum=[]
-time_stepMaximum=[]
-tempsMaximum=[]
 
 # Asserting the temperature files are imported properly
 
@@ -25,6 +18,12 @@ if minimumTemperaturedf is None:
     first.write('Please upload the minimum temperature csv file.')
 if maximumTemperaturedf is None:
     second.write('Please upload the maximum temperature csv file.')
+
+# Modify the csv data to time series data
+time_stepMinimum=[]
+tempsMinimum=[]
+time_stepMaximum=[]
+tempsMaximum=[]
 
 if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
 
@@ -43,7 +42,7 @@ if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
         time_stepMaximum.append(steps)
         steps+=1
 
-
+    #  Visualising the Data
     first.write("Minimum Temperature Data")
     first.write(minimumTemperatureData)
 
@@ -61,21 +60,14 @@ if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
     c1, c2 = st.beta_columns((4, 1))
 
     days = c1.slider('Select the number of days for the forecast', 0,365)
-    result = c2.button("Forecast :smile:")
+    isForecast = c2.button("Forecast :smile:")
 
-    if result:
+    if isForecast:
         accuracyMinimum, maeMinimum, minimumTemperature = m.forecast_model(seriesMinimum,timeMinimum,days)
         accuracyMaximum, maeMaximum, maximumTemperature = m.forecast_model(seriesMaximum,timeMaximum,days)
 
         first.write("Minimum Temperature at Day "+str(days) + " : " +str(minimumTemperature[days-1]))
-
-        # first.write("Minimum Temperature is:")
-        # first.write(minimumTemperature)
-
         second.write("Maximum Temperature at Day "+str(days)+ " : " +str(maximumTemperature[days-1]))
-
-        # second.write("Maximum Temperature is:")
-        # second.write(maximumTemperature)
 
 
 hide_streamlit_style = """
@@ -84,4 +76,3 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-# st.button("Re-run")
