@@ -1,5 +1,5 @@
 # Time-Series-Analysis-Weather-Data
-This repository contains the project "Time Series Analysis of Weather Data" completed at Bhaskaracharya Insitutute for Space Applications and Geo-Informatics under Mr. Prem Pattini from May 2021 to July 2021 by me and my project partner Sarveshwar Mahapatro.
+This repository contains the project "Time Series Analysis of Weather Data" completed at Bhaskaracharya Insitutute for Space Applications and Geo-Informatics under Mr. Prem Pattini from May 2021 to July 2021 by Sai Ankit and Sarveshwar Mahapatro.
 
 ### Demo
 ![Website Demo](https://github.com/saiankit/Time-Series-Analysis-Weather-Data/blob/main/Time%20Series%20Website.mp4)
