@@ -1,6 +1,8 @@
 # Time-Series-Analysis-Weather-Data
 This repository contains the project "Time Series Analysis of Weather Data" completed at Bhaskaracharya Insitutute for Space Applications and Geo-Informatics under Mr. Prem Pattini from May 2021 to July 2021 by me and my project partner Sarveshwar Mahapatro.
 
+### Demo
+![Website Demo]("/Time Series Website.mp4")
 ### About BISAG
 Modern day planning for inclusive development and growth calls for transparent,efficient, effective,responsive and low cost decision making systems involving multi-disciplinary information such that it not only encourages people's participation, ensuring equitable development but also takes into account the sustainability of natural resources. The applications of space technology and Geo–informatics have contributed significantly towards the socio-economic development. Taking cognizance of the need of geo-spatial information for developmental planning and management of resources, the Department of Science and Technology, **Government of Gujarat established "Bhaskaracharya Institute for Space Applications and Geo-informatics" (BISAG). BISAG is an ISO 9001:2008, ISO 27001:2005 and CMMI: 5 certified institute.** BISAG which was initially set up to carryout space technology applications, has evolved into a **centre of excellence, where research and innovations are combined with the requirements of users and thus acts as a value added service provider, a technology developer and as a facilitator for providing direct benefits of space technologies to the grass root level functions/functionaries.**
 

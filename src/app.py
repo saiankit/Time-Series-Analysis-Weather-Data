@@ -6,6 +6,13 @@ import model as m
 import pandas as pd
 import time
 
+st.set_page_config(
+     page_title="Time Series Temperature Forecast",
+     page_icon="📈",
+     layout="wide",
+   initial_sidebar_state="expanded",
+ )
+
 st.title('📈 Temperature forecast using Time Series Analysis')
 first, second = st.beta_columns(2)
 
@@ -70,6 +77,16 @@ if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
         second.write("Maximum Temperature at Day "+str(days)+ " : " +str(maximumTemperature[days-1]))
 
 
+st.markdown("""
+<style>
+.big-font {
+    font-size:15px !important;
+    text-align: center;
+    color: purple;
+}
+</style>
+""", unsafe_allow_html=True)
+st.markdown('<p class="big-font">Developed by Sai Ankit & Sarveshwar Mahapatro</p>', unsafe_allow_html=True)
 hide_streamlit_style = """
             <style>
             footer {visibility: hidden;}
