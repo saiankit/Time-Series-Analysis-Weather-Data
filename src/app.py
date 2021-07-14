@@ -1,10 +1,7 @@
 import streamlit as st
-import time
 import numpy as np
-import csv
 import model as m
 import pandas as pd
-import time
 
 st.set_page_config(
      page_title="Time Series Temperature Forecast",
