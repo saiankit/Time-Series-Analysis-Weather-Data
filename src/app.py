@@ -40,6 +40,7 @@ if minimumTemperaturedf is not None and maximumTemperaturedf is not None:
         time_stepMinimum.append(steps)
         steps+=1
 
+
     steps = 0
     for row in maximumTemperatureData.itertuples():
         tempsMaximum.append(float(row[2]))
